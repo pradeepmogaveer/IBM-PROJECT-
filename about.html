@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>About Mercedes</title>
-  <!-- Tailwind Setup -->
-  <!-- (Insert shared Tailwind setup here) -->
-<link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-dark text-light font-sans flex flex-col min-h-screen">
   <header id="header" class="sticky top-0 bg-dark shadow-md z-50"></header>
@@ -25,11 +23,15 @@
       <button onclick="sendMessage()" class="bg-gold text-dark px-6 py-3 rounded-full mt-2 font-semibold">Send</button>
     </div>
 
-    <!-- NLP -->
+    <!-- NLP + TTS -->
     <div class="max-w-4xl mx-auto bg-[#1e1e1e] p-8 rounded-xl shadow-xl">
-      <h2 class="text-2xl font-bold mb-4 text-gold">Text Analysis (NLP)</h2>
-      <textarea id="nlp-text" class="w-full bg-dark border border-gold text-light p-3 rounded-md mb-4" rows="5" placeholder="Paste text for analysis..."></textarea>
-      <button class="bg-gold text-dark px-6 py-3 rounded-full font-semibold">Analyze</button>
+      <h2 class="text-2xl font-bold mb-4 text-gold">Text Analysis & Speech</h2>
+      <textarea id="nlp-text" class="w-full bg-dark border border-gold text-light p-3 rounded-md mb-4" rows="5" placeholder="Paste text for analysis or speech..."></textarea>
+      <div class="flex gap-4">
+        <button onclick="analyzeText()" class="bg-gold text-dark px-6 py-3 rounded-full font-semibold">Analyze</button>
+        <button onclick="speakText()" class="bg-gold text-dark px-6 py-3 rounded-full font-semibold">Speak</button>
+      </div>
+      <div id="nlp-result" class="mt-6 text-light font-medium"></div>
     </div>
   </main>
 
@@ -37,6 +39,7 @@
   <script src="nav.js"></script>
 
   <script>
+    // Chatbot logic
     const chatWindow = document.getElementById("chat-window");
 
     function sendMessage() {
@@ -65,6 +68,38 @@
       msg.innerHTML = `<strong>${sender}:</strong> ${text}`;
       chatWindow.appendChild(msg);
       chatWindow.scrollTop = chatWindow.scrollHeight;
+    }
+
+    // Text-to-Speech
+    function speakText() {
+      const text = document.getElementById("nlp-text").value.trim();
+      if (!text) return;
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "en-US";
+      speechSynthesis.speak(utterance);
+    }
+
+    // NLP Analysis
+    function analyzeText() {
+      const text = document.getElementById("nlp-text").value.trim();
+      if (!text) return;
+
+      const wordCount = text.split(/\s+/).filter(Boolean).length;
+      const sentenceCount = text.split(/[.!?]+/).filter(Boolean).length;
+
+      const positiveWords = ["great", "excellent", "amazing", "love", "fantastic", "wonderful"];
+      const negativeWords = ["bad", "poor", "hate", "terrible", "worst", "awful"];
+      let sentiment = "Neutral";
+
+      const lowerText = text.toLowerCase();
+      const positives = positiveWords.filter(word => lowerText.includes(word)).length;
+      const negatives = negativeWords.filter(word => lowerText.includes(word)).length;
+
+      if (positives > negatives) sentiment = "Positive";
+      else if (negatives > positives) sentiment = "Negative";
+
+      document.getElementById("nlp-result").innerText =
+        `Words: ${wordCount} | Sentences: ${sentenceCount} | Sentiment: ${sentiment}`;
     }
   </script>
 </body>
