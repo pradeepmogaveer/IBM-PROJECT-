@@ -1,0 +1,80 @@
+:root {
+  --accent-color: #00AEEF;
+  --dark-bg: #0A0F1F;
+  --light-text: #E0E0E0;
+  --muted-text: #888888;
+  --card-bg: #1A2238;
+  --font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background-color: var(--dark-bg);
+  color: var(--light-text);
+  font-family: var(--font-family);
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2 {
+  color: var(--accent-color);
+}
+
+input, textarea {
+  background-color: var(--dark-bg);
+  color: var(--light-text);
+  border: 1px solid var(--accent-color);
+  padding: 0.75em;
+  border-radius: 6px;
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+button {
+  background-color: var(--accent-color);
+  color: var(--dark-bg);
+  padding: 0.75em 1.5em;
+  border: none;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #33cfff;
+}
+
+form {
+  background-color: var(--card-bg);
+  padding: 2em;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+}
+
+nav a {
+  color: var(--light-text);
+  text-decoration: none;
+  margin: 0 1em;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: var(--accent-color);
+}
+
+footer {
+  text-align: center;
+  color: var(--muted-text);
+  padding: 2em 0;
+  background-color: var(--dark-bg);
+}
+
+#chat-window {
+  background-color: var(--dark-bg);
+  border: 1px solid var(--accent-color);
+  color: var(--light-text);
+  padding: 1em;
+  border-radius: 6px;
+  height: 20em;
+  overflow-y: auto;
+}
